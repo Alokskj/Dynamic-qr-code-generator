@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../contexts/AuthProvider";
 
 const Login = () => {
+  const navigate = useNavigate()
+  const auth = useAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(()=>{
+    if(auth.user){
+      navigate('/')
+    }
+  },[auth])
   const handleSubmit = async (e) => {
     try {
         e.preventDefault();
@@ -21,6 +29,7 @@ const Login = () => {
         const res = await data.json();
         if(res.success){
             toast.success('User Logged in successfully')
+            navigate('/')
         }
         else{
             toast.error(res.message)
