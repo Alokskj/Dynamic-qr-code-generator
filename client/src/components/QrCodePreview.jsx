@@ -21,6 +21,17 @@ import {
 import { Link } from "react-router-dom"
 
 export function QrCodePreview({imageUrl}) {
+  const handlePrint = () => {
+    if (imageUrl) {
+      const imageWindow = window.open(imageUrl);
+      if (imageWindow) {
+        imageWindow.onload = () => {
+          imageWindow.print();
+          // imageWindow.close();
+        };
+      }
+    }
+  };
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -31,8 +42,8 @@ export function QrCodePreview({imageUrl}) {
         <img src={imageUrl} className=""/>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Print</Button>
-        <a href={imageUrl} download='true'><Button>Download</Button></a>
+        <Button onClick={handlePrint} variant="outline">Print</Button>
+        <a href={imageUrl} download='qrcode.png'><Button>Download</Button></a>
       </CardFooter>
     </Card>
   )

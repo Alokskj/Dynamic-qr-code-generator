@@ -9,7 +9,7 @@ const Register = () => {
     try {
         e.preventDefault();
         console.log(email, password);
-        const data = await fetch("http://localhost:3000/api/v1/auth/register", {
+        const data = await fetch("/api/v1/auth/register", {
           headers: {
             "Content-Type": "application/json",
           },

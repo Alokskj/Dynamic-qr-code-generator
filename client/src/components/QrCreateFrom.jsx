@@ -43,7 +43,7 @@ export function QrCreateFrom() {
     try {
       e.preventDefault();
       console.log(qrCode);
-      const response = await fetch("http://localhost:3000/api/v1/qrcode", {
+      const response = await fetch("/api/v1/qrcode", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -55,7 +55,10 @@ export function QrCreateFrom() {
       console.log(res)
       if(res.success){
       toast.success(res.message)
-      setQrCodeURL(res.data.qrCodeUrl)
+      const imageResponse = await fetch(res.data.qrCodeUrl)
+      const blob = await imageResponse.blob()
+      console.log(URL.createObjectURL(blob))
+      setQrCodeURL(URL.createObjectURL(blob))
       }
       else{
         toast.error(res.message)

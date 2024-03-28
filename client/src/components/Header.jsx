@@ -14,7 +14,9 @@ const Header = () => {
     <header className="py-3  border-b border-gray-400">
       <div className="container-max flex justify-between items-center">
         <div className="logo">
+          <Link to="/">
           <p className="text-3xl font-black">DynoQr</p>
+          </Link>
         </div>
         <nav>
           <ul className="flex items-center gap-x-3 font-medium ">

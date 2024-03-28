@@ -19,7 +19,7 @@ const Login = () => {
     try {
       e.preventDefault();
       console.log(email, password);
-      const data = await fetch("http://localhost:3000/api/v1/auth/login", {
+      const data = await fetch("/api/v1/auth/login", {
         headers: {
           "Content-Type": "application/json",
         },
