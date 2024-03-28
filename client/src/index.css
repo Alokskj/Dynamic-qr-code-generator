@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container-max{
+    @apply  px-6 md:px-12 lg:px-14
+}

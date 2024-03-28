@@ -5,35 +5,35 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../contexts/AuthProvider";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const auth = useAuth()
+  const navigate = useNavigate();
+  const auth = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(()=>{
-    if(auth.user){
-      navigate('/')
+  useEffect(() => {
+    if (auth.user) {
+      console.log(auth.user);
+      navigate("/");
     }
-  },[auth])
+  }, [auth]);
   const handleSubmit = async (e) => {
     try {
-        e.preventDefault();
-        console.log(email, password);
-        const data = await fetch("http://localhost:3000/api/v1/auth/login", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          method: "POST",
-          body: JSON.stringify({ email, password }),
-        });
-        const res = await data.json();
-        if(res.success){
-            toast.success('User Logged in successfully')
-            navigate('/')
-        }
-        else{
-            toast.error(res.message)
-        }
+      e.preventDefault();
+      console.log(email, password);
+      const data = await fetch("http://localhost:3000/api/v1/auth/login", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      const res = await data.json();
+      if (res.success) {
+        toast.success("User Logged in successfully");
+        auth?.setUser(res.data.LoggedInUser);
+      } else {
+        toast.error(res.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
