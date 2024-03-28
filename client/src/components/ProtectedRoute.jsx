@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthProvider";
 const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const navigate = useNavigate();
+  console.log('hello')
   if (auth.loading) {
     return <p>Loading..</p>;
   }

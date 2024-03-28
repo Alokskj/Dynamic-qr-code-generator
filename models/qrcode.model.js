@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const qrCodeSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
+    active : {
+      type : Boolean,
+      required: true
+    },
     qrCodeId: {
       type: String,
       required: true,
