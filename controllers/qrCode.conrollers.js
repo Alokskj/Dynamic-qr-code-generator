@@ -9,7 +9,8 @@ import { fileURLToPath, pathToFileURL } from "url";
 import generateUniqueId from "../utils/generateUniqueId.js";
 
 export const generateQrCode = asyncHandler(async (req, res) => {
-  const { name, redirect: redirectURL, active } = req.body;
+  const {_id} = req.user
+  const { name,redirectURL, active } = req.body;
   if (!name || !redirectURL || active === undefined) {
     throw new ApiError(400, "Please provide all details");
   }
@@ -23,11 +24,11 @@ export const generateQrCode = asyncHandler(async (req, res) => {
   const qrCode = await qrcode.toFile(qrCodePath, serverRedirectURL, {
     type: "png",
   });
-  console.log(pathToFileURL(qrCodePath));
 
   const data = await QrCode.create({
     name,
     active,
+    createdBy : _id,
     qrCodeId,
     redirectURL,
   });
@@ -41,7 +42,6 @@ export const generateQrCode = asyncHandler(async (req, res) => {
 
 export const redirectQrCode = asyncHandler(async (req, res) => {
   const { qrCodeId } = req.params;
-  console.log(qrCodeId);
   const qrCode = await QrCode.findOne({ qrCodeId });
   if (!qrCode) {
     throw new Error("Qr code not Exists");
@@ -49,3 +49,38 @@ export const redirectQrCode = asyncHandler(async (req, res) => {
   const redirectURL = qrCode.redirectURL;
   res.redirect(redirectURL);
 });
+
+export const getQrCode = asyncHandler(async(req,res)=>{
+  const user = req.user
+  const {qrCodeId} = req.params
+  const qrCode = await QrCode.findOne({qrCodeId})
+  if(!qrCode){
+    throw new ApiError(404,'Invalid Qr Code')
+  }
+  if(!qrCode.createdBy.equals(user._id)){
+    throw new ApiError(400,'This Qr Code not belonged to you')
+  }
+  res.status(200).json(new ApiResponse(200, 'Qr Code fetched successfully', qrCode))
+
+})
+
+export const getAllQrCodes = asyncHandler(async(req,res)=>{
+  const user = req.user
+  const allQrCodes = await QrCode.find({createdBy: user._id})
+  res.status(200).json(new ApiResponse(200, 'all qr Codes fetched successfully', allQrCodes))
+})
+
+export const updateQrCode = asyncHandler(async (req,res)=>{
+  const {qrCodeId} = req.params
+  const {name,redirectURL,active} = req.body
+  const user = req.user
+  const qrCode = await QrCode.findOne({qrCodeId})
+  if(!qrCode){
+    throw new Error('Invalid Qr Code')
+  }
+  if(!qrCode.createdBy.equals(user._id)){
+    throw new Error('This Qr Code not belonged to you')
+  }
+  const updatedQrCode = await QrCode.findOneAndUpdate({qrCodeId}, {$set:{name,redirectURL,active}}, {new: true})
+  res.status(200).json(new ApiResponse(200, 'Qr Code updated succesfully', updateQrCode))
+})

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import Loader from "./Loader";
 
 const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const navigate = useNavigate();
-  console.log('hello')
   if (auth.loading) {
-    return <p>Loading..</p>;
+    return <Loader />;
   }
   if (auth.user === null && auth.loading === false) {
     navigate("/login", { replace: true });

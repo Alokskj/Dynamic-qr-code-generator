@@ -10,6 +10,10 @@ const qrCodeSchema = new mongoose.Schema(
       type : Boolean,
       required: true
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref : 'User'
+    },
     qrCodeId: {
       type: String,
       required: true,

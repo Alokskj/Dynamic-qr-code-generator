@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/AuthProvider'
-import Header from '../components/Header'
-import { QrCreateFrom } from '@/components/QrCreateFrom'
-import { QrCodePreview } from '@/components/QrCodePreview'
+import { GenerateQr } from '@/components/GenerateQr'
 
 
 const Home = () => {
   const {user} = useAuth()
   return (
     <>
-    <Header />
-    <div className="flex justify-center items-center h-screen gap-8">
-    <QrCreateFrom />
+    <div className="flex justify-center items-center min-h-[80vh] gap-8">
+    <GenerateQr />
     </div>
     </>
   )

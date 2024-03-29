@@ -5,13 +5,15 @@ import { useAuth } from "@/contexts/AuthProvider";
 const NAV_LINKS = [
   { label: "home", href: "/" },
   { label: "Generate", href: "#" },
+  { label: "Scan", href: "/scan" },
   { label: "Qr codes", href: "#" },
   { label: "Profile", href: "#" },
 ];
 const Header = () => {
   const auth = useAuth();
   return (
-    <header className="py-3  border-b border-gray-400">
+    <>
+    <header className="py-3 hidden lg:block  border-b border-gray-400">
       <div className="container-max flex justify-between items-center">
         <div className="logo">
           <Link to="/">
@@ -45,6 +47,7 @@ const Header = () => {
         </nav>
       </div>
     </header>
+    </>
   );
 };
 

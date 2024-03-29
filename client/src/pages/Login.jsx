@@ -11,14 +11,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   useEffect(() => {
     if (auth.user) {
-      console.log(auth.user);
       navigate("/");
     }
   }, [auth]);
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(email, password);
       const data = await fetch("/api/v1/auth/login", {
         headers: {
           "Content-Type": "application/json",

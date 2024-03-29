@@ -8,7 +8,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     try {
         e.preventDefault();
-        console.log(email, password);
         const data = await fetch("/api/v1/auth/register", {
           headers: {
             "Content-Type": "application/json",
