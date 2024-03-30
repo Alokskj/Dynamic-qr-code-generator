@@ -11,9 +11,9 @@ const generateAccessAndRefreshToken = async (user) => {
   return { accessToken, refreshToken };
 };
 export const register = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   if (
-    [email, password].some(
+    [email, password, name].some(
       (field) => field?.trim() === "" || field?.trim() === undefined
     )
   ) {
@@ -23,7 +23,7 @@ export const register = asyncHandler(async (req, res) => {
   if (isUserExists) {
     throw new ApiError(400, "User already Exist");
   }
-  const user = await User.create({ email, password });
+  const user = await User.create({ email, password, name });
   res.status(201).json(new ApiResponse(201, "User registred Successfully"));
 });
 
@@ -40,7 +40,9 @@ export const login = asyncHandler(async (req, res) => {
   if (!isPasswordCorrect) {
     throw new ApiError(400, "Invalid Credentials");
   }
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user
+  );
 
   const LoggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -76,7 +78,9 @@ export const google = asyncHandler(async (req, res) => {
       password: generatePassword,
     });
   }
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user
+  );
   const LoggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
@@ -94,7 +98,6 @@ export const google = asyncHandler(async (req, res) => {
         LoggedInUser,
       })
     );
-
 });
 
 export const logout = asyncHandler(async (req, res) => {

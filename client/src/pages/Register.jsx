@@ -11,11 +11,22 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const Register = () => {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setUser((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
   const auth = useAuth();
   useEffect(() => {
     if (auth.user) {
@@ -25,6 +36,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await auth.register(email, password);
+  };
+  const handleGoogleSignIn = async (credential) => {
+    const decoded = jwtDecode(credential);
+    const { name, email, picture } = decoded;
+    await auth.signinWithGoogle(name, email, picture);
   };
   return (
     <div className="container flex flex-col justify-center items-center min-h-screen">
@@ -45,7 +61,9 @@ const Register = () => {
                     id="first-name"
                     placeholder="Max"
                     required
-                    name="first-name"
+                    name="firstName"
+                    value={user.firstName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -54,7 +72,9 @@ const Register = () => {
                     id="last-name"
                     placeholder="Robinson"
                     required
-                    name="last-name"
+                    name="lastName"
+                    value={user.lastName}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -66,8 +86,8 @@ const Register = () => {
                   placeholder="m@example.com"
                   required
                   name="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  onChange={handleChange}
+                  value={user.email}
                 />
               </div>
               <div className="grid gap-2">
@@ -77,16 +97,25 @@ const Register = () => {
                   type="password"
                   required
                   name="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
+                  onChange={handleChange}
+                  value={user.password}
                 />
               </div>
               <Button type="submit" className="w-full">
                 Create an account
               </Button>
-              <Button variant="outline" className="w-full">
-                Sign up with Google
-              </Button>
+              <div className="w-full">
+                <GoogleLogin
+                  useOneTap
+                  width={300}
+                  onSuccess={(credentialResponse) => {
+                    handleGoogleSignIn(credentialResponse.credential);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </div>
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}

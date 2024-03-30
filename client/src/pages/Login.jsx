@@ -29,11 +29,11 @@ const Login = () => {
     e.preventDefault();
     await auth.login(email, password);
   };
-  const handleGoogleSignIn = async (credential) =>{
-    const decoded = jwtDecode(credential)
-    const {name,email,picture} = decoded
-    await auth.signinWithGoogle(name,email,picture)
-  }
+  const handleGoogleSignIn = async (credential) => {
+    const decoded = jwtDecode(credential);
+    const { name, email, picture } = decoded;
+    await auth.signinWithGoogle(name, email, picture);
+  };
   return (
     <div className="min-h-screen flex justify-center items-center">
       <Card className="mx-auto max-w-sm ">
@@ -81,19 +81,16 @@ const Login = () => {
                 Login
               </Button>
               <div className="w-full">
-              <GoogleLogin
-               useOneTap
-               width={300}
-               
-          
-               
-                onSuccess={(credentialResponse) => {
-                  handleGoogleSignIn(credentialResponse.credential);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
+                <GoogleLogin
+                  useOneTap
+                  width={300}
+                  onSuccess={(credentialResponse) => {
+                    handleGoogleSignIn(credentialResponse.credential);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
