@@ -66,7 +66,7 @@ export const google = asyncHandler(async (req, res) => {
   if (!email || !name || !profilePicture) {
     throw new ApiError(400, "Provide email and password");
   }
-  const user = await User.findOne({ email });
+  let user = await User.findOne({ email });
   if (!user) {
     const generatePassword = Math.random().toString(36).slice(-8);
     user = await User.create({
