@@ -1,3 +1,4 @@
+import useQuery from "@/hooks/useQuery";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -5,25 +6,27 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch("/api/v1/user", {
-          credentials: "include",
-        });
-        const res = await response.json();
-        if (res.data) {
-          setUser(res.data);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
+  const [loading, setLoading] = useState(true)
+  const {data} = useQuery('/api/v1/user')
+  console.log(data)
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await fetch("/api/v1/user", {
+  //         credentials: "include",
+  //       });
+  //       const res = await response.json();
+  //       if (res.data) {
+  //         setUser(res.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const register = async (email, password) => {
     try {
