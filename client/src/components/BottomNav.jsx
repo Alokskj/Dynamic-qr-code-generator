@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "home", href: "/", icon: <HomeIcon /> },
   { label: "Scan", href: "/scan", icon: <ScanLine /> },
   { label: "Generate", href: "/generate", icon: <CirclePlus /> },
-  { label: "Qr codes", href: "#", icon: <QrCode /> },
+  { label: "Qr codes", href: "/qr-codes", icon: <QrCode /> },
   { label: "Profile", href: "#", icon: <CircleUserRound /> },
 ];
 const BottomNav = () => {

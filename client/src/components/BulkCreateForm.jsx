@@ -17,7 +17,7 @@ const BulkCreateForm = ({handleSubmit, count,setCount,loading}) => {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="count">Enter Count</Label>
-                <Input type="number" min="1" max="30" value={count} onChange={(e)=> setCount(e.target.value)} id="count" placeholder="Qr code count to be generated" />
+                <Input type="number" min="1" max="30" value={count} required onChange={(e)=> setCount(e.target.value)} id="count" placeholder="Qr code count to be generated" />
               </div>
             </div>
         </CardContent>

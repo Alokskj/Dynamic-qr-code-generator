@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: "home", href: "/" },
   { label: "Generate", href: "/generate" },
   { label: "Scan", href: "/scan" },
-  { label: "Qr codes", href: "#" },
+  { label: "Qr codes", href: "/qr-codes" },
   { label: "Profile", href: "#" },
 ];
 const Header = () => {

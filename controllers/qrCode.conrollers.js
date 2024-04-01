@@ -80,7 +80,10 @@ export const redirectQrCode = asyncHandler(async (req, res) => {
   const { qrCodeId } = req.params;
   const qrCode = await QrCode.findOne({ qrCodeId });
   if (!qrCode) {
-    throw new Error("Qr code not Exists");
+    throw new ApiError(404, "Qr code not Exists");
+  }
+  if(!qrCode.active){
+    throw new ApiError(400, 'Qr code is not active yet')
   }
   const redirectURL = qrCode.redirectURL;
   res.redirect(redirectURL);
@@ -112,10 +115,10 @@ export const updateQrCode = asyncHandler(async (req,res)=>{
   const user = req.user
   const qrCode = await QrCode.findOne({qrCodeId})
   if(!qrCode){
-    throw new Error('Invalid Qr Code')
+    throw new ApiError(404, 'Invalid Qr Code')
   }
   if(!qrCode.createdBy.equals(user._id)){
-    throw new Error('This Qr Code not belonged to you')
+    throw new ApiError(400, 'This Qr Code not belonged to you')
   }
   const updatedQrCode = await QrCode.findOneAndUpdate({qrCodeId}, {$set:{name,redirectURL,active}}, {new: true})
   res.status(200).json(new ApiResponse(200, 'Qr Code updated succesfully', updateQrCode))

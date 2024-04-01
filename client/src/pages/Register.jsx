@@ -44,7 +44,7 @@ const Register = () => {
   };
   return (
     <div className="container flex flex-col justify-center items-center min-h-screen">
-      <Card className="mx-auto max-w-sm">
+      <Card className=" max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Sign Up</CardTitle>
           <CardDescription>

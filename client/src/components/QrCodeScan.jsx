@@ -91,7 +91,7 @@ export function QrCodeScan() {
       alert(
         "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
       );
-      navigate("/", { replace: "true" });
+      // navigate("/", { replace: "true" });
     }
   }, [qrOn]);
   return (
