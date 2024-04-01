@@ -8,7 +8,7 @@ const PreviewPage = () => {
     // if(!imageUrl){
     //     return <Navigate to='/' />
     // }
-  return <QrCodePreview imageUrl={imageUrl} />;
+  return <div className="flex justify-center items-center min-h-screen"><QrCodePreview imageUrl={imageUrl} /></div>;
 };
 
 export default PreviewPage;
