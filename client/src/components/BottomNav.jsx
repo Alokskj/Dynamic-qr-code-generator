@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 const NAV_LINKS = [
   { label: "home", href: "/", icon: <HomeIcon /> },
   { label: "Scan", href: "/scan", icon: <ScanLine /> },
-  { label: "Generate", href: "#", icon: <CirclePlus /> },
+  { label: "Generate", href: "/generate", icon: <CirclePlus /> },
   { label: "Qr codes", href: "#", icon: <QrCode /> },
   { label: "Profile", href: "#", icon: <CircleUserRound /> },
 ];
