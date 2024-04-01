@@ -15,6 +15,7 @@ import ErrorPage from "./components/error-page.jsx";
 import Header from "./components/Header.jsx";
 import PageLayout from "./components/PageLayout.jsx";
 import UpdateQr from "./pages/UpdateQr.jsx";
+import {BulkCreate} from "./pages/BulkCreate.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <UpdateQr />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/generate",
+        element: (
+          <ProtectedRoute>
+            <BulkCreate />
           </ProtectedRoute>
         ),
       },

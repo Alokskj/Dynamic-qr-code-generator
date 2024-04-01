@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthProvider";
 const NAV_LINKS = [
   { label: "home", href: "/" },
-  { label: "Generate", href: "#" },
+  { label: "Generate", href: "/generate" },
   { label: "Scan", href: "/scan" },
   { label: "Qr codes", href: "#" },
   { label: "Profile", href: "#" },

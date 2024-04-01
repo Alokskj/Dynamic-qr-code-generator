@@ -19,9 +19,9 @@ export const generateQrCode = asyncHandler(async (req, res) => {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const parentDir = path.resolve(__dirname, "..");
   const qrCodePath = path.join(parentDir, `/public/qr-codes/${qrCodeId}.png`);
-  const serverRedirectURL = `${process.env.HOST_NAME}/api/v1/qrcode/redirect/${qrCodeId}`;
+  const redirectToServerUrl = `${process.env.HOST_NAME}/api/v1/qrcode/redirect/${qrCodeId}`;
   const qrCodeUrl = `${process.env.HOST_NAME}/qr-codes/${qrCodeId}.png`;
-  const qrCode = await qrcode.toFile(qrCodePath, serverRedirectURL, {
+  const qrCode = await qrcode.toFile(qrCodePath, redirectToServerUrl, {
     type: "png",
   });
 
@@ -31,14 +31,50 @@ export const generateQrCode = asyncHandler(async (req, res) => {
     createdBy : _id,
     qrCodeId,
     redirectURL,
+    qrCodeUrl
   });
   res.status(201).json(
-    new ApiResponse(201, "Qr code generated successfully", {
-      ...data,
-      qrCodeUrl,
-    })
+    new ApiResponse(201, "Qr code generated successfully", data)
   );
 });
+
+export const generateBulkQrCode = asyncHandler(async (req,res)=>{
+  const user = req.user
+  const {count} = req.body
+  if(user.role !== 'admin'){
+    throw new ApiError(401, 'You are allowed to performed this action')
+  }
+  if(!count){
+    throw new ApiError(400, 'Please provide count of qr code to be generated')
+  }
+  if(count > 30){
+    throw new ApiError(400, 'You cannot generate more than 30 qr codes at a time')
+  }
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const parentDir = path.resolve(__dirname, "..");
+  const qrCodesArray = []
+  for(let i = 0;i < count; i++){
+    const qrCodeId = generateUniqueId();
+    const qrCodePath = path.join(parentDir, `/public/qr-codes/${qrCodeId}.png`);
+    const redirectToServerUrl = `${process.env.HOST_NAME}/api/v1/qrcode/redirect/${qrCodeId}`;
+    const qrCodeUrl = `${process.env.HOST_NAME}/qr-codes/${qrCodeId}.png`;
+    const qrCode = await qrcode.toFile(qrCodePath, redirectToServerUrl, {
+      type: "png",
+    });
+    const data = await QrCode.create({
+      createdBy : user._id,
+      qrCodeId,
+      qrCodeUrl
+    });
+    qrCodesArray.push(data)
+
+  }
+
+  res.status(201).json(
+    new ApiResponse(201, `${qrCodesArray.length} Qr codes generated successfully`, qrCodesArray)
+  );
+
+})
 
 export const redirectQrCode = asyncHandler(async (req, res) => {
   const { qrCodeId } = req.params;
