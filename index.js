@@ -7,12 +7,13 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 connectDB();
-
+app.use(morgan('dev'))
 app.use(
   cors({
     origin: function (origin, callback) {
