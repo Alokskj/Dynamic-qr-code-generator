@@ -44,6 +44,7 @@ const UpdateQr = () => {
       const res = await response.json();
       if (res.success) {
         toast.success(res.message);
+        navigate(-1)
       } else {
         toast.error(res.message);
         

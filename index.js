@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./utils/connectDB.js";
-import { globalErrorHandler } from "./middlerwares/error.middleware.js";
+import { globalErrorHandler, notFound } from "./middlerwares/error.middleware.js";
 import qrCodeRoutes from "./routes/qrCode.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/qrcode", qrCodeRoutes);
-
+app.use(notFound)
 app.use(globalErrorHandler);
 
 app.listen(PORT, () =>

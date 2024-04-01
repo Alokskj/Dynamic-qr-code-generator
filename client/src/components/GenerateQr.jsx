@@ -3,14 +3,15 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { QrCodePreview } from "./QrCodePreview";
 import {QrForm} from "./QrForm";
+import { useNavigate } from "react-router-dom";
 
 export function GenerateQr() {
+  const navigate = useNavigate()
   const [qrCode, setQrCode] = useState({
     name: "",
     redirectURL: "",
     active: true,
   });
-  const [qrCodeURL, setQrCodeURL] = useState()
  
   const handleSubmit = async (e) => {
     
@@ -29,7 +30,8 @@ export function GenerateQr() {
       toast.success(res.message)
       const imageResponse = await fetch(res.data.qrCodeUrl)
       const blob = await imageResponse.blob()
-      setQrCodeURL(URL.createObjectURL(blob))
+      const blobUrl = URL.createObjectURL(blob)
+      navigate('/preview', { state: { imageUrl: blobUrl } });
       }
       else{
         toast.error(res.message)
@@ -39,9 +41,6 @@ export function GenerateQr() {
       
     }
   };
-  if(qrCodeURL){
-    return <QrCodePreview imageUrl={qrCodeURL}/>
-  }
   return (
     <QrForm type='Create' handleSubmit={handleSubmit} qrCode={qrCode} setQrCode={setQrCode}/>
   );

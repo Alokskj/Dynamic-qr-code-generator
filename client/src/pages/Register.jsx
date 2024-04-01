@@ -35,7 +35,9 @@ const Register = () => {
   }, [auth]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await auth.register(email, password);
+    const name = user.firstName + " " + user.lastName
+    await auth.register(name,user.email,user.password);
+    navigate('/login')
   };
   const handleGoogleSignIn = async (credential) => {
     const decoded = jwtDecode(credential);

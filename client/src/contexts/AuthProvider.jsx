@@ -25,18 +25,19 @@ const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  const register = async (email, password) => {
+  const register = async (name, email, password) => {
     try {
       const data = await fetch("/api/v1/auth/register", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
       const res = await data.json();
       if (res.success) {
         toast.success("User registred successfully");
+        
       } else {
         toast.error(res.message);
       }

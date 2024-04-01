@@ -17,6 +17,7 @@ import PageLayout from "./components/PageLayout.jsx";
 import UpdateQr from "./pages/UpdateQr.jsx";
 import {BulkCreate} from "./pages/BulkCreate.jsx";
 import UserQrCodesPage from "./pages/UserQrCodesPage.jsx";
+import PreviewPage from "./pages/PreviewPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <UpdateQr />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/preview",
+        element: (
+          <ProtectedRoute>
+            <PreviewPage />
           </ProtectedRoute>
         ),
       },
