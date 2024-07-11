@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://qr-code-server.alokskj.co/api/:path*"
+            "destination": "http://3.109.131.84/api/:path*"
         },
         {
             "source": "/(.*)",
